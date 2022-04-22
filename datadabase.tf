@@ -1,3 +1,4 @@
+#database
 resource "aws_db_instance" "Demo-mysql-database" {
     identifier = "mysqldatabase"
     storage_type = "gp2"  
