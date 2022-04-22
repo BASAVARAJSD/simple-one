@@ -1,3 +1,5 @@
+#credential
+
 variable "username" {
     default = "admin"
 }
