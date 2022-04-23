@@ -1,4 +1,4 @@
-#credential
+#pass word
 
 variable "username" {
     default = "admin"
