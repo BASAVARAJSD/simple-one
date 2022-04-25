@@ -3,7 +3,7 @@ name: 'terraform'
 on:
   push:
     branches:
-  - master
+     - main
     pull_request:
 
     jobs:
@@ -19,41 +19,39 @@ on:
         - name: Checkout
           user: actions/checkout@v2
 
-      - name: Setup Terraform
-        user: hashicorp/setup-terraform@v1.0.0
+        - name: Setup Terraform
+          user: hashicorp/setup-terraform@v1.0.0
+          with:
+           cli_config_credentials_tocken: ${{ secrets.TF_API_TOCKEN }}
+
+        - name: terraform Init 
+          run: terraform init
+
+        - name: terraform Format
+          run: terraform fmt -checkf
+
+        - name: terraform Validate
+          run: terraform validate
+
+        - name: terraform Plan
+          id: plan
+          run: terraform plan -no-color
+
+        - uses: action/github-script@0.9.0
+          if: github.event_name == 'pull_request'
+          env:
+        STDOUT: "'''${{ steps.plan.outputs.stdout }}'''"
         with:
-          cli_config_credentials_tocken: ${{ secrets.TF_API_TOCKEN }}
+        github-tocken: ${{ secrets.GITHUB_TOCKEN }}
+        script:
+         github.issues.createComment({
+        issue_number: context.issue.number,
+        owner: context.repo.owner,
+        repo: context.repo.repo
+        body: proces.env.STDOUT})
 
-       name: terraform Init
-       run: terraform init
-
-     - name: terraform Format
-       run: terraform fmt -checkf
-
-     - name: terraform Validate
-       run: terraform validate
-
-     - name: terraform Plan
-       id: plan
-       run: terraform plan -no-color
-
-     - uses: action/github-script@0.9.0
-     if: github.event_name == 'pull_request'
-     env:
-      STDOUT: "'''${{ steps.plan.outputs.stdout }}'''"
-     with:
-      github-tocken: ${{ secrets.GITHUB_TOCKEN }}
-      script:
-        github.issues.createComment({
-          issue_number: context.issue.number,
-          owner: context.repo.owner,
-          repo: context.repo.repo
-          body: proces.env.STDOUT
-        })
-
-
-     - name: terraform Apply
-       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-       run: terraform apply -auto-approve
+#          - name: terraform Apply
+#            if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+#            run: terraform apply -auto-approve
 
 
