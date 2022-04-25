@@ -1,6 +1,6 @@
 
 
-Documentation for `hashicorp/setup-terraform` is located here: 'https://github.com/BASAVARAJSD/terraform-assignment.git'
+Documentation for `hashicorp/setup-terraform` is located here: https://github.com/BASAVARAJSD/terraform-assignment.git
 To use this workflow, you will need to complete the following setup steps.
 
 1. Create a `main.tf` file in the root of this repository with the `remote` backend and one or more resources defined.
