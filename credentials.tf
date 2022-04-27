@@ -1,3 +1,4 @@
+#creditials
 variable "username" {
     default = "admin"
 }
