@@ -1,5 +1,3 @@
-
-
 variable "username" {
     default = "admin"
 }
