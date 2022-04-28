@@ -1,4 +1,4 @@
-variable "username" {
+variable "username" {     
     default = "admin"
 }
 
